@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0f766e">
+  <title>Smart Expense Tracker</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="top">
+    <h1>Smart Expense Tracker</h1>
+    <p id="monthLabel" class="muted"></p>
+  </header>
+
+  <main>
+    <!-- HOME -->
+    <section id="view-home" class="view active">
+      <div class="panel balance">
+        <div class="row">
+          <div>
+            <span class="muted">Spent this month</span>
+            <strong id="hSpent" class="big">₹0</strong>
+          </div>
+          <div class="right">
+            <span class="muted">Left to spend</span>
+            <strong id="hLeft" class="big">–</strong>
+          </div>
+        </div>
+        <div class="bar"><div id="budgetFill"></div></div>
+        <form id="budgetForm" class="inline">
+          <label for="budgetInput" class="muted">Monthly budget (₹)</label>
+          <input id="budgetInput" type="number" inputmode="decimal" min="0" step="1" placeholder="e.g. 15000">
+          <button class="ghost" type="submit">Save budget</button>
+        </form>
+      </div>
+
+      <form id="addForm" class="panel" autocomplete="off">
+        <h2>Add a transaction</h2>
+        <div class="seg" role="radiogroup" aria-label="Type">
+          <input type="radio" name="type" id="tExp" value="expense" checked>
+          <label for="tExp">Expense</label>
+          <input type="radio" name="type" id="tInc" value="income">
+          <label for="tInc">Income</label>
+        </div>
+
+        <label for="amount">Amount (₹)</label>
+        <input id="amount" type="number" inputmode="decimal" min="0" step="0.01" placeholder="0" required>
+
+        <label for="note">What was it for?</label>
+        <input id="note" type="text" maxlength="80" placeholder="e.g. Zomato dinner, Metro recharge">
+
+        <div class="two">
+          <div>
+            <label for="cat">Category</label>
+            <select id="cat"></select>
+          </div>
+          <div>
+            <label for="date">Date</label>
+            <input id="date" type="date" required>
+          </div>
+        </div>
+        <p id="catHint" class="hint"></p>
+        <button class="primary" type="submit">Save transaction</button>
+      </form>
+
+      <div class="panel">
+        <h2>Recent</h2>
+        <ul id="recentList" class="list"></ul>
+      </div>
+    </section>
+
+    <!-- HISTORY -->
+    <section id="view-history" class="view">
+      <div class="panel">
+        <h2>All transactions</h2>
+        <div class="two">
+          <input id="search" type="search" placeholder="Search notes">
+          <select id="filterCat"></select>
+        </div>
+        <ul id="historyList" class="list"></ul>
+      </div>
+    </section>
+
+    <!-- REPORTS -->
+    <section id="view-reports" class="view">
+      <div class="panel">
+        <div class="row">
+          <h2>Report</h2>
+          <input id="repMonth" type="month" aria-label="Report month">
+        </div>
+        <div class="stats">
+          <div><span class="muted">Income</span><strong id="rIncome">₹0</strong></div>
+          <div><span class="muted">Expenses</span><strong id="rExpense">₹0</strong></div>
+          <div><span class="muted">Saved</span><strong id="rSaved">₹0</strong></div>
+        </div>
+        <p id="insight" class="insight"></p>
+      </div>
+
+      <div class="panel">
+        <h2>Where the money went</h2>
+        <div class="chart"><canvas id="pieChart"></canvas></div>
+        <ul id="catBreakdown" class="list"></ul>
+      </div>
+
+      <div class="panel">
+        <h2>Last 6 months</h2>
+        <div class="chart"><canvas id="barChart"></canvas></div>
+      </div>
+
+      <div class="panel">
+        <h2>Your data</h2>
+        <div class="two">
+          <button class="ghost" id="exportBtn" type="button">Download CSV</button>
+          <button class="ghost" id="sampleBtn" type="button">Load sample data</button>
+        </div>
+        <button class="danger" id="clearBtn" type="button">Delete all data</button>
+        <p class="hint">Everything is stored only in this browser on your phone.</p>
+      </div>
+    </section>
+  </main>
+
+  <nav class="tabs" aria-label="Main">
+    <button data-view="home" class="on">Home</button>
+    <button data-view="history">History</button>
+    <button data-view="reports">Reports</button>
+  </nav>
+
+  <div id="toast" role="status" aria-live="polite"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
